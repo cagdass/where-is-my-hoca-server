@@ -1,17 +1,42 @@
 var mongo_service = require('./mongo_connection')
 var Promise = require("bluebird");
 
+/*
+  Database service for the server application.
+ */
+
 function schedule_service(db){
   var service = this;
-  // var mongo = require('mongodb')
   var validate = require('validate.js')
-  // var constraints = require('./user_constraints');
 
+  // Find all professors.
   service.find_professors = function(){
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
         return collection.distinct("instructor");
+      })
+    })
+  };
+
+  // Find classes taught at a given classroom.
+  service.find_classes_at_classroom = function(location){
+    console.log("Finding classes at " + location.location);
+    return Promise.try(function(){
+      return mongo_service.getCollection()
+      .then(function(collection){
+        return collection.find({"lectures.location": location.location}).toArray();
+      })
+    })
+  };
+
+  // Find all classrooms.
+  service.find_classrooms = function(){
+    console.log("Finding all classrooms.");
+    return Promise.try(function(){
+      return mongo_service.getCollection()
+      .then(function(collection){
+        return collection.distinct("lectures.location");
       })
     })
   };
@@ -24,7 +49,7 @@ function schedule_service(db){
       return mongo_service.getCollection()
       .then(function(collection){
         // return collection.find({"instructor": {"$regex": "Davenport"}}).toArray();
-        return collection.find({"instructor": {"$regex": name}}).toArray();
+        return collection.find({"instructor": {"$regex": "^" + name + "$"}}).toArray();
       })
     })
   };
@@ -64,4 +89,4 @@ function schedule_service(db){
   };
 }
 
-module.exports = schedule_service
+module.exports = schedule_service;
