@@ -10,6 +10,21 @@ module.exports = (function() {
 
     router.use(bodyParser.json());
 
+    router.get('/professors', function(req, res){
+        service_instance.find_professors()
+        .then(function(result) {
+            if(result == null){
+                res.status(404).send(result)
+            }
+            else{
+                res.status(200).send(result)
+            }
+        })
+        .catch(function(error){
+            console.error(error)
+        })
+    });
+
     // Get the classes of a professor
     // professors/professor?name=" + instructor
     router.get('/professors/professor', function(req, res){

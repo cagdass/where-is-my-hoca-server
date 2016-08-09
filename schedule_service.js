@@ -7,6 +7,15 @@ function schedule_service(db){
   var validate = require('validate.js')
   // var constraints = require('./user_constraints');
 
+  service.find_professors = function(){
+    return Promise.try(function(){
+      return mongo_service.getCollection()
+      .then(function(collection){
+        return collection.distinct("instructor");
+      })
+    })
+  };
+
   // Find all classes from a professor.
   service.find_classes_from_instructor = function(professor){
     var name = professor.instructor.replace("%20", " ");
