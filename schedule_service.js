@@ -11,6 +11,7 @@ function schedule_service(db){
 
   // Find all professors.
   service.find_professors = function(){
+    console.log("Finding all professors.")
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
@@ -19,20 +20,20 @@ function schedule_service(db){
     })
   };
 
-  // Find classes taught at a given building.
+  // Find classes taught at a given classroom.
   service.find_classes_at_classroom = function(location){
-    console.log("Finding classes at " + location.location);
+    console.log("Finding classes taught at " + location);
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
-        return collection.find({"lectures.location": location.location}).toArray();
+        return collection.find({"lectures.location": location}).toArray();
       })
     })
   };
 
-  // Find all building.
+  // Find all classrooms.
   service.find_classrooms = function(){
-    console.log("Finding all building.");
+    console.log("Finding all classrooms.");
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
@@ -44,7 +45,7 @@ function schedule_service(db){
   // Find all classes from a professor.
   service.find_classes_from_instructor = function(professor){
     var name = professor.instructor.replace("%20", " ");
-    console.log("Finding classes of " + name);
+    console.log(`Finding classes of ${name}.`);
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
@@ -56,7 +57,7 @@ function schedule_service(db){
 
   // Find all classes of a department.
   service.find_classes_from_department = function(departmentCode){
-    console.log("Finding classes from department " + departmentCode.departmentCode);
+    console.log(`Finding classes from department ${departmentCode.departmentCode}.`);
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
@@ -67,7 +68,7 @@ function schedule_service(db){
 
   // Find distinct departments
   service.find_distinct_departments = function(){
-    console.log("Retrieving distinct departments.");
+    console.log("Finding distinct departments.");
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
@@ -76,8 +77,9 @@ function schedule_service(db){
     })
   };
 
+  // Find all buildings.
   service.find_distinct_buildings = function(){
-    console.log("Retrieving distinct buildings.");
+    console.log("Finding distinct buildings.");
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
@@ -86,8 +88,9 @@ function schedule_service(db){
     })
   };
 
+  // Find classrooms at a building.
   service.find_classrooms_at_building = function(building){
-    console.log("Retrieving classrooms at building " + building);
+    console.log(`Finding classrooms at building ${building}.`);
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
@@ -98,7 +101,7 @@ function schedule_service(db){
 
   // Find classes that are in this building.
   service.find_classroom = function(classroom){
-    console.log("Finding building " + JSON.stringify(classroom));
+    console.log(`Finding building ${JSON.stringify(classroom)}.`);
     return Promise.try(function(){
       // var not_validated = validate(user, constraints.constraints)
       return mongo_service.getCollection()

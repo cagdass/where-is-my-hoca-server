@@ -44,23 +44,6 @@ module.exports = (function() {
         })
     });
 
-    router.get('/building/building', function(req, res){
-        var location = req.query.location;
-        var loc = {location};
-        service_instance.find_classes_at_classroom(loc)
-        .then(function(result){
-            if(result == null){
-                res.status(404).send(result)
-            }
-            else{
-                res.status(200).send(result)
-            }
-        })
-        .catch(function(error){
-            console.error(error)
-        })
-    });
-
     // Get the classes of a professor
     // professors/professor?name=" + instructor
     router.get('/professors/professor', function(req, res){
@@ -96,6 +79,22 @@ module.exports = (function() {
       .catch(function(error){
         console.error(error);
       })
+    });
+
+    router.get('/classrooms/classroom', function(req, res){
+        var param = req.query.classroom;
+        service_instance.find_classes_at_classroom(param)
+        .then(function(result){
+            if(result == null){
+                res.status(404).send(result);
+            }
+            else{
+                res.status(200).send(result);
+            }
+        })
+        .catch(function(error){
+            console.error(error);
+        })
     });
 
     router.get('/departments', function(req, res){
