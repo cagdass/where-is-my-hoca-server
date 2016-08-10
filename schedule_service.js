@@ -91,7 +91,7 @@ function schedule_service(db){
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
-        return collection.find({"lectures.building": building}).toArray();
+        return collection.find({"lectures.building": building}, {"lectures.location": 1}).toArray();
       })
     })
   };
