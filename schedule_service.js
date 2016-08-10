@@ -19,7 +19,7 @@ function schedule_service(db){
     })
   };
 
-  // Find classes taught at a given classroom.
+  // Find classes taught at a given building.
   service.find_classes_at_classroom = function(location){
     console.log("Finding classes at " + location.location);
     return Promise.try(function(){
@@ -30,9 +30,9 @@ function schedule_service(db){
     })
   };
 
-  // Find all classrooms.
+  // Find all building.
   service.find_classrooms = function(){
-    console.log("Finding all classrooms.");
+    console.log("Finding all building.");
     return Promise.try(function(){
       return mongo_service.getCollection()
       .then(function(collection){
@@ -76,9 +76,29 @@ function schedule_service(db){
     })
   };
 
-  // Find classes that are in this classroom.
+  service.find_distinct_buildings = function(){
+    console.log("Retrieving distinct buildings.");
+    return Promise.try(function(){
+      return mongo_service.getCollection()
+      .then(function(collection){
+        return collection.distinct("lectures.building");
+      })
+    })
+  };
+
+  service.find_classrooms_at_building = function(building){
+    console.log("Retrieving classrooms at building " + building);
+    return Promise.try(function(){
+      return mongo_service.getCollection()
+      .then(function(collection){
+        return collection.find({"lectures.building": building}).toArray();
+      })
+    })
+  };
+
+  // Find classes that are in this building.
   service.find_classroom = function(classroom){
-    console.log("Finding classroom " + JSON.stringify(classroom));
+    console.log("Finding building " + JSON.stringify(classroom));
     return Promise.try(function(){
       // var not_validated = validate(user, constraints.constraints)
       return mongo_service.getCollection()
