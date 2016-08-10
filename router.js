@@ -81,6 +81,21 @@ module.exports = (function() {
       })
     });
 
+    router.get('/classrooms', function(req, res){
+       service_instance.find_distinct_classrooms()
+       .then(function(result){
+           if(result == null){
+               res.status(404).send(result);
+           }
+           else{
+               res.status(200).send(result);
+           }
+       })
+       .catch(function(error){
+           console.error(error);
+       })
+    });
+
     router.get('/classrooms/classroom', function(req, res){
         var param = req.query.classroom;
         service_instance.find_classes_at_classroom(param)

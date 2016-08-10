@@ -32,7 +32,7 @@ function schedule_service(db){
   };
 
   // Find all classrooms.
-  service.find_classrooms = function(){
+  service.find_distinct_classrooms = function(){
     console.log("Finding all classrooms.");
     return Promise.try(function(){
       return mongo_service.getCollection()
