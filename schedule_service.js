@@ -110,6 +110,16 @@ function schedule_service(db){
       })
     })
   };
+
+  // Find empty classrooms at a given time.
+  service.find_empty_classrooms = function(classroom, hours){
+    return Promise.try(function() {
+      return mongo_service.getCollection()
+      .then(function(collection){
+        return collection.find({})
+      })
+    });
+  }
 }
 
 module.exports = schedule_service;
