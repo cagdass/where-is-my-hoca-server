@@ -1,5 +1,6 @@
 var mongo_service = require('./mongo_connection')
 var Promise = require("bluebird");
+var classroom_collection = 'semester20161classrooms';
 
 /*
   Database service for the server application.
@@ -103,7 +104,6 @@ function schedule_service(db){
   service.find_classroom = function(classroom){
     // console.log(`Finding building ${JSON.stringify(classroom)}.`);
     return Promise.try(function(){
-      // var not_validated = validate(user, constraints.constraints)
       return mongo_service.getCollection()
       .then(function(collection){
         return collection.find(classroom).toArray()
@@ -112,13 +112,16 @@ function schedule_service(db){
   };
 
   // Find empty classrooms at a given time.
-  service.find_empty_classrooms = function(classroom, hours){
-    return Promise.try(function() {
-      return mongo_service.getCollection()
-      .then(function(collection){
-        return collection.find({})
+  service.find_empty_classrooms = function(building, hours){
+    console.log(building);
+    console.log(hours);
+
+    return Promise.try(function(){
+      return mongo_service.getClassroomCollection(classroom_collection)
+      .then(function(classroom_collection){
+        return classroom_collection.find({'location': {'$regex': '^' + building}, 'hours': {'$nin': hours}}, {'location': 1, '_id': 0}).toArray()
       })
-    });
+    })
   }
 }
 

@@ -109,6 +109,7 @@ module.exports = (function() {
 
         var classroom = req.body.classroom;
         var hours = req.body.hours;
+
         console.log(`Finding empty classrooms, regex: ${classroom}, hours: ${hours}. Request from ${ip} Time ${Date()}`);
 
         service_instance.find_empty_classrooms(classroom, hours)
