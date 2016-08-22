@@ -107,6 +107,8 @@ module.exports = (function() {
             req.socket.remoteAddress ||
             req.connection.socket.remoteAddress;
 
+        console.log('Hola');
+
         var classroom = req.body.classroom;
         var hours = req.body.hours;
 
