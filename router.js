@@ -101,6 +101,31 @@ module.exports = (function() {
       })
     });
 
+    router.post('/electives', function(req, res){
+        var ip = req.headers['x-forwarded-for'] ||
+            req.connection.remoteAddress ||
+            req.socket.remoteAddress ||
+            req.connection.socket.remoteAddress;
+
+        var departments = req.body.departments;
+        var hours = req.body.hours;
+
+        service_instance.find_electives(departments, hours)
+        .then(function(result){
+            if(result == null) {
+                res.status(404).send(result);
+            }
+            else {
+                res.status(200).send(result);
+            }
+        })
+        .catch(function(error){
+            console.error(error);
+        });
+
+        console.log(`Finding elective classes, departments: ${departments}, hours: ${hours}. Request from ${ip} Time ${Date()}`);
+    });
+
     router.post('/empty_classrooms', function(req, res){
         var ip = req.headers['x-forwarded-for'] ||
             req.connection.remoteAddress ||

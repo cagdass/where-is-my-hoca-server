@@ -1,6 +1,7 @@
-var mongo_service = require('./mongo_connection')
+var mongo_service = require('./mongo_connection');
 var Promise = require("bluebird");
 var classroom_collection = 'semester20161classrooms';
+var elective_collection = 'semester20161electives';
 
 /*
   Database service for the server application.
@@ -117,9 +118,27 @@ function schedule_service(db){
     console.log(hours);
 
     return Promise.try(function(){
-      return mongo_service.getClassroomCollection(classroom_collection)
+      return mongo_service.getClassroomCollection()
       .then(function(classroom_collection){
         return classroom_collection.find({'location': {'$regex': '^' + building}, 'hours': {'$nin': hours}}, {'location': 1, '_id': 0}).toArray()
+      })
+    })
+  };
+
+  // Find elective courses by department and hours
+  service.find_electives = function(departments, hours) {
+    console.log(departments);
+    console.log(hours);
+
+    return Promise.try(function(){
+      return mongo_service.getElectiveCollection()
+      .then(function(elective_collection){
+        if(departments.length > 0) {
+          return elective_collection.find({'departmentCode': {'$in': departments}, 'hours': {'$not': {'$elemMatch': {'$nin': hours}}}}).toArray();
+        }
+        else {
+          return elective_collection.find({'hours': {'$not': {'$elemMatch': {'$nin': hours}}}}).toArray();
+        }
       })
     })
   }
