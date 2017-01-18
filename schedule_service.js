@@ -1,7 +1,7 @@
 var mongo_service = require('./mongo_connection');
 var Promise = require("bluebird");
-var classroom_collection = 'semester20161classrooms';
-var elective_collection = 'semester20161electives';
+var classroom_collection = 'semester20162classrooms';
+var elective_collection = 'semester20162electives';
 
 /*
   Database service for the server application.
