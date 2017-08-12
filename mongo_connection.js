@@ -1,8 +1,8 @@
 var mongo = require('mongodb').MongoClient;
 var default_url = 'mongodb://cgds.me:27017/offerings';
-var default_collection = 'semester20162';
-var default_classrooms = 'semester20162classrooms';
-var default_electives = 'semester20162electives';
+var default_collection = 'semester20171';
+var default_classrooms = 'semester20171classrooms';
+var default_electives = 'semester20171electives';
 
 var mongoPromise = mongo.connect(default_url)
 .catch(function(error){
