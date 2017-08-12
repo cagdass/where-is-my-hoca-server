@@ -19,24 +19,24 @@ var mongo_service = {
       throw error
     })
   },
-  getCollection: function(collection_name = default_collection) {
+  getCollection: function(collection_name) {
     return mongoPromise
     .then(function(db){
-        var collection = db.collection(collection_name);
+        var collection = db.collection(default_collection);
         return collection;
     });
   },
-  getClassroomCollection: function(collection_name = default_classrooms) {
+  getClassroomCollection: function(collection_name) {
       return mongoPromise
       .then(function(db) {
-          var collection = db.collection(collection_name);
+          var collection = db.collection(default_classrooms);
           return collection;
     });
   },
-  getElectiveCollection: function(collection_name = default_electives) {
+  getElectiveCollection: function(collection_name) {
       return mongoPromise
       .then(function(db) {
-          var collection = db.collection(collection_name);
+          var collection = db.collection(default_electives);
           return collection;
       })
   }
