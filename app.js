@@ -1,5 +1,7 @@
 var mongo = require('mongodb')
 var express = require('express');
+var https = require('https');
+var fs = require('fs');
 var bodyParser = require('body-parser')
 var schedule_service = require('./schedule_service')
 var service_instance = new schedule_service();
@@ -14,8 +16,13 @@ app.use(function(req, res, next) {
 var router = require('./router');
 app.use(router);
 
+var options = {
+  key: fs.readFileSync(config.key),
+  cert: fs.readFileSync(config.cert),
+};
 
-app.listen(port=3000, function () {
-  console.log('Example app listening on port ' + port);
+var port = 3000;
+
+var server = https.createServer(options, app).listen(port, function(){
+  console.log('Honorable app listening on port ' + port);
 });
-
