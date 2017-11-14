@@ -1,5 +1,6 @@
 var mongo = require('mongodb')
 var express = require('express');
+const config = require("./config.js");
 var https = require('https');
 var fs = require('fs');
 var bodyParser = require('body-parser')
